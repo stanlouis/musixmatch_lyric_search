@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 
+import { Consumer } from "../../context";
+
 class Tracks extends Component {
   render() {
     return (
-      <React.Fragment>
-        <h1>Tracks</h1>
-      </React.Fragment>
+      <Consumer>
+        {value => {
+          console.log(value);
+          return <h1>Tacks</h1>;
+        }}
+      </Consumer>
     );
   }
 }
