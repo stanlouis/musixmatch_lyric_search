@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
-import Spinner from "../layout/Spinner";
+
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
+
+import musixmatch from "../../api/musixmatch";
+import Spinner from "../layout/Spinner";
 
 class Lyrics extends Component {
   state = {
@@ -11,20 +13,21 @@ class Lyrics extends Component {
   };
 
   componentDidMount() {
-    axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${
-          this.props.match.params.id
-        }&apikey=${process.env.REACT_APP_MM_KEY}`
-      )
+    const { id } = this.props.match.params;
+    musixmatch
+      .get("/track.lyrics.get", {
+        params: {
+          track_id: id
+        }
+      })
       .then(res => {
         this.setState({ lyrics: res.data.message.body.lyrics });
 
-        return axios.get(
-          `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.get?track_id=${
-            this.props.match.params.id
-          }&apikey=${process.env.REACT_APP_MM_KEY}`
-        );
+        return musixmatch.get("/track.get", {
+          params: {
+            track_id: id
+          }
+        });
       })
       .then(res => {
         this.setState({ track: res.data.message.body.track });
