@@ -89,7 +89,11 @@ class Lyrics extends Component {
           </li>
           <li className="list-group-item">
             <strong>Release Date</strong>:{" "}
-            <Moment format="MM/DD/YYYY">{album.album_release_date}</Moment>
+            {album.album_release_date === "" ? (
+              "Date Not available"
+            ) : (
+              <Moment format="MM/DD/YYYY">{album.album_release_date}</Moment>
+            )}
           </li>
         </ul>
       </React.Fragment>
